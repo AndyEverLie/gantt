@@ -7,7 +7,7 @@
 	<style>
 		body {
 			font-family: sans-serif;
-			background: #ccc;
+			/* background: #ccc; */
 		}
 
 		/* custom class */
@@ -96,6 +96,8 @@
 			arrow_curve: 5,
 			padding: 18,
 			step: 24,
+			view_mode: 'Day',
+			language: 'zh',
 			on_click: function (task) {
 				console.log(task);
 			},
@@ -108,8 +110,6 @@
 			on_view_change: function (mode) {
 				console.log(mode);
 			},
-			view_mode: 'Day',
-			language: 'zh'
 		});
 		gantt_chart.change_view_mode('Quarter Day')
 		console.log(gantt_chart);

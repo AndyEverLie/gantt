@@ -1384,14 +1384,14 @@ class Gantt {
     make_grid_header() {
         const header_width = this.dates.length * this.options.column_width;
         const header_height = this.options.header_height + 10;
-        createSVG('rect', {
-            x: 0,
-            y: 0,
-            width: header_width,
-            height: header_height,
-            class: 'grid-header',
-            append_to: this.layers.grid
-        });
+        // createSVG('rect', {
+        //     x: 0,
+        //     y: 0,
+        //     width: header_width,
+        //     height: header_height,
+        //     class: 'grid-header',
+        //     append_to: this.layers.grid
+        // });
     }
 
     make_grid_ticks() {
