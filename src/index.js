@@ -41,8 +41,7 @@ export default class Gantt {
             svg_element = element;
         } else {
             throw new TypeError(
-                'Frappé Gantt only supports usage of a string CSS selector,' +
-                    " HTML DOM element or SVG DOM element for the 'element' parameter"
+                '初始化失败'
             );
         }
 
@@ -74,6 +73,7 @@ export default class Gantt {
 
     setup_options(options) {
         const default_options = {
+            color_mode: 'light',
             header_height: 50,
             column_width: 30,
             step: 24,
@@ -83,10 +83,10 @@ export default class Gantt {
             arrow_curve: 5,
             padding: 18,
             view_mode: 'Day',
-            date_format: 'YYYY-MM-DD',
+            date_format: 'DD MM',
             popup_trigger: 'click',
             custom_popup_html: null,
-            language: 'en'
+            language: 'zh'
         };
         this.options = Object.assign({}, default_options, options);
     }
@@ -307,7 +307,7 @@ export default class Gantt {
             this.options.header_height +
             this.options.padding +
             (this.options.bar_height + this.options.padding) *
-                this.tasks.length;
+            this.tasks.length;
 
         createSVG('rect', {
             x: 0,
@@ -319,7 +319,8 @@ export default class Gantt {
         });
 
         $.attr(this.$svg, {
-            height: grid_height + this.options.padding + 100,
+            // height: grid_height + this.options.padding + 100,
+            height: grid_height,
             width: '100%'
         });
     }
@@ -424,7 +425,7 @@ export default class Gantt {
             const width = this.options.column_width;
             const height =
                 (this.options.bar_height + this.options.padding) *
-                    this.tasks.length +
+                this.tasks.length +
                 this.options.header_height +
                 this.options.padding / 2;
 
@@ -441,6 +442,7 @@ export default class Gantt {
 
     make_dates() {
         for (let date of this.get_dates_to_draw()) {
+            console.log('date.lower_text', date.lower_text)
             createSVG('text', {
                 x: date.lower_x,
                 y: date.lower_y,
@@ -510,8 +512,8 @@ export default class Gantt {
             'Half Day_upper':
                 date.getDate() !== last_date.getDate()
                     ? date.getMonth() !== last_date.getMonth()
-                      ? date_utils.format(date, 'D MMM', this.options.language)
-                      : date_utils.format(date, 'D', this.options.language)
+                        ? date_utils.format(date, 'D MMM', this.options.language)
+                        : date_utils.format(date, 'D', this.options.language)
                     : '',
             Day_upper:
                 date.getMonth() !== last_date.getMonth()
@@ -624,8 +626,8 @@ export default class Gantt {
 
         const scroll_pos =
             hours_before_first_task /
-                this.options.step *
-                this.options.column_width -
+            this.options.step *
+            this.options.column_width -
             this.options.column_width;
 
         parent_element.scrollLeft = scroll_pos;

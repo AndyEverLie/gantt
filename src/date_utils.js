@@ -162,6 +162,7 @@ export default {
 
     format(date, format_string = 'YYYY-MM-DD HH:mm:ss.SSS', lang = 'en') {
         const values = this.get_date_values(date).map(d => padStart(d, 2, 0));
+        // const values = this.get_date_values(date);
         const format_map = {
             YYYY: values[0],
             MM: padStart(+values[1] + 1, 2, 0),
@@ -169,7 +170,7 @@ export default {
             HH: values[3],
             mm: values[4],
             ss: values[5],
-            SSS:values[6],
+            SSS: values[6],
             D: values[2],
             MMMM: month_names[lang][+values[1]],
             MMM: month_names[lang][+values[1]]

@@ -165,6 +165,7 @@ var date_utils = {
 
     format(date, format_string = 'YYYY-MM-DD HH:mm:ss.SSS', lang = 'en') {
         const values = this.get_date_values(date).map(d => padStart(d, 2, 0));
+        // const values = this.get_date_values(date);
         const format_map = {
             YYYY: values[0],
             MM: padStart(+values[1] + 1, 2, 0),
@@ -172,7 +173,7 @@ var date_utils = {
             HH: values[3],
             mm: values[4],
             ss: values[5],
-            SSS:values[6],
+            SSS: values[6],
             D: values[2],
             MMMM: month_names[lang][+values[1]],
             MMM: month_names[lang][+values[1]]
@@ -421,13 +422,13 @@ $.off = (element, event, handler) => {
 };
 
 $.bind = (element, event, callback) => {
-    event.split(/\s+/).forEach(function(event) {
+    event.split(/\s+/).forEach(function (event) {
         element.addEventListener(event, callback);
     });
 };
 
 $.delegate = (element, event, selector, callback) => {
-    element.addEventListener(event, function(e) {
+    element.addEventListener(event, function (e) {
         const delegatedTarget = e.target.closest(selector);
         if (delegatedTarget) {
             e.delegatedTarget = delegatedTarget;
@@ -492,8 +493,8 @@ class Bar {
         this.width = this.gantt.options.column_width * this.duration;
         this.progress_width =
             this.gantt.options.column_width *
-                this.duration *
-                (this.task.progress / 100) || 0;
+            this.duration *
+            (this.task.progress / 100) || 0;
         this.group = createSVG('g', {
             class: 'bar-wrapper ' + (this.task.custom_class || ''),
             'data-id': this.task.id
@@ -509,19 +510,19 @@ class Bar {
     }
 
     prepare_helpers() {
-        SVGElement.prototype.getX = function() {
+        SVGElement.prototype.getX = function () {
             return +this.getAttribute('x');
         };
-        SVGElement.prototype.getY = function() {
+        SVGElement.prototype.getY = function () {
             return +this.getAttribute('y');
         };
-        SVGElement.prototype.getWidth = function() {
+        SVGElement.prototype.getWidth = function () {
             return +this.getAttribute('width');
         };
-        SVGElement.prototype.getHeight = function() {
+        SVGElement.prototype.getHeight = function () {
             return +this.getAttribute('height');
         };
-        SVGElement.prototype.getEndX = function() {
+        SVGElement.prototype.getEndX = function () {
             return this.getX() + this.getWidth();
         };
     }
@@ -891,7 +892,7 @@ class Arrow {
             this.gantt.options.header_height +
             this.gantt.options.bar_height +
             (this.gantt.options.padding + this.gantt.options.bar_height) *
-                this.from_task.task._index +
+            this.from_task.task._index +
             this.gantt.options.padding;
 
         const end_x = this.to_task.$bar.getX() - this.gantt.options.padding / 2;
@@ -899,7 +900,7 @@ class Arrow {
             this.gantt.options.header_height +
             this.gantt.options.bar_height / 2 +
             (this.gantt.options.padding + this.gantt.options.bar_height) *
-                this.to_task.task._index +
+            this.to_task.task._index +
             this.gantt.options.padding;
 
         const from_is_below_to =
@@ -1064,8 +1065,7 @@ class Gantt {
             svg_element = element;
         } else {
             throw new TypeError(
-                'Frappé Gantt only supports usage of a string CSS selector,' +
-                    " HTML DOM element or SVG DOM element for the 'element' parameter"
+                '初始化失败'
             );
         }
 
@@ -1097,6 +1097,7 @@ class Gantt {
 
     setup_options(options) {
         const default_options = {
+            color_mode: 'light',
             header_height: 50,
             column_width: 30,
             step: 24,
@@ -1106,10 +1107,10 @@ class Gantt {
             arrow_curve: 5,
             padding: 18,
             view_mode: 'Day',
-            date_format: 'YYYY-MM-DD',
+            date_format: 'DD MM',
             popup_trigger: 'click',
             custom_popup_html: null,
-            language: 'en'
+            language: 'zh'
         };
         this.options = Object.assign({}, default_options, options);
     }
@@ -1330,7 +1331,7 @@ class Gantt {
             this.options.header_height +
             this.options.padding +
             (this.options.bar_height + this.options.padding) *
-                this.tasks.length;
+            this.tasks.length;
 
         createSVG('rect', {
             x: 0,
@@ -1342,7 +1343,8 @@ class Gantt {
         });
 
         $.attr(this.$svg, {
-            height: grid_height + this.options.padding + 100,
+            // height: grid_height + this.options.padding + 100,
+            height: grid_height,
             width: '100%'
         });
     }
@@ -1447,7 +1449,7 @@ class Gantt {
             const width = this.options.column_width;
             const height =
                 (this.options.bar_height + this.options.padding) *
-                    this.tasks.length +
+                this.tasks.length +
                 this.options.header_height +
                 this.options.padding / 2;
 
@@ -1464,6 +1466,7 @@ class Gantt {
 
     make_dates() {
         for (let date of this.get_dates_to_draw()) {
+            console.log('date.lower_text', date.lower_text);
             createSVG('text', {
                 x: date.lower_x,
                 y: date.lower_y,
@@ -1533,8 +1536,8 @@ class Gantt {
             'Half Day_upper':
                 date.getDate() !== last_date.getDate()
                     ? date.getMonth() !== last_date.getMonth()
-                      ? date_utils.format(date, 'D MMM', this.options.language)
-                      : date_utils.format(date, 'D', this.options.language)
+                        ? date_utils.format(date, 'D MMM', this.options.language)
+                        : date_utils.format(date, 'D', this.options.language)
                     : '',
             Day_upper:
                 date.getMonth() !== last_date.getMonth()
@@ -1647,8 +1650,8 @@ class Gantt {
 
         const scroll_pos =
             hours_before_first_task /
-                this.options.step *
-                this.options.column_width -
+            this.options.step *
+            this.options.column_width -
             this.options.column_width;
 
         parent_element.scrollLeft = scroll_pos;
