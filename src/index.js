@@ -181,6 +181,13 @@ export default class Gantt {
         this.trigger_event('view_change', [mode]);
     }
 
+    get_actual_width() {
+        const actual_width = this.$svg
+            .querySelector('.grid .grid-background')
+            .getAttribute('width');
+        return actual_width;
+    }
+
     update_view_scale(view_mode) {
         this.options.view_mode = view_mode;
 
@@ -236,9 +243,9 @@ export default class Gantt {
         } else if (this.view_is([VIEW_MODE.MONTH, VIEW_MODE.YEAR])) {
             this.gantt_start = date_utils.start_of(this.gantt_start, 'year');
             this.gantt_end = date_utils.add(this.gantt_end, 1, 'year');
-        // } else if (this.view_is(VIEW_MODE.YEAR)) {
-        //     this.gantt_start = date_utils.add(this.gantt_start, -2, 'year');
-        //     this.gantt_end = date_utils.add(this.gantt_end, 2, 'year');
+            // } else if (this.view_is(VIEW_MODE.YEAR)) {
+            //     this.gantt_start = date_utils.add(this.gantt_start, -2, 'year');
+            //     this.gantt_end = date_utils.add(this.gantt_end, 2, 'year');
         } else {
             this.gantt_start = date_utils.add(this.gantt_start, -1, 'month');
             this.gantt_end = date_utils.add(this.gantt_end, 1, 'month');
@@ -495,14 +502,14 @@ export default class Gantt {
                         this.options.step *
                         this.options.column_width;
                     const y = this.options.header_height > 0 ? this.options.header_height / 2 + 5 : 0;
-    
+
                     const width = this.options.column_width;
                     // const height = this.options.only_header ? this.options.header_height / 2 + 5 :
                     //     this.options.padding / 2 +
                     //     (this.options.bar_height + this.options.padding) *
                     //     this.tasks.length +
                     //     this.options.header_height / 2 - 10;
-    
+
                     createSVG('rect', {
                         x,
                         y,
