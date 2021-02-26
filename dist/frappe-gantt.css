@@ -30,7 +30,7 @@
 .gantt .arrow {
   fill: none;
   stroke: #ebe9f1;
-  stroke-width: 1.4;
+  stroke-width: 1.1;
 }
 .gantt .bar {
   fill: #b8c2cc;
@@ -97,9 +97,114 @@
   fill: #555;
 }
 .gantt .lower-text {
-  fill: #333;
+  fill: #555;
 }
 .gantt .hide {
+  display: none;
+}
+
+.dark-layout .gantt .grid-background {
+  fill: none;
+}
+.dark-layout .gantt .grid-header {
+  fill: #283046;
+  stroke: #3b4253;
+  stroke-width: 1.4;
+}
+.dark-layout .gantt .grid-row {
+  fill: #283046;
+}
+.dark-layout .gantt .row-line {
+  stroke: #3b4253;
+}
+.dark-layout .gantt .tick {
+  stroke: #3b4253;
+  stroke-width: 0.5;
+}
+.dark-layout .gantt .tick.thick {
+  stroke-width: 0.4;
+}
+.dark-layout .gantt .today-highlight {
+  fill: #fcf8e3;
+  opacity: 0.5;
+}
+.dark-layout .gantt .weekend-highlight {
+  fill: #242b3d;
+  opacity: 0.5;
+}
+.dark-layout .gantt .arrow {
+  fill: none;
+  stroke: #b4b7bd;
+  stroke-width: 1.1;
+}
+.dark-layout .gantt .bar {
+  fill: #b8c2cc;
+  stroke: #ebe9f1;
+  stroke-width: 0;
+  transition: stroke-width 0.3s ease;
+  user-select: none;
+}
+.dark-layout .gantt .bar-progress {
+  fill: #7367f0;
+}
+.dark-layout .gantt .bar-invalid {
+  fill: transparent;
+  stroke: #ebe9f1;
+  stroke-width: 1;
+  stroke-dasharray: 5;
+}
+.dark-layout .gantt .bar-invalid ~ .bar-label {
+  fill: #b4b7bd;
+}
+.dark-layout .gantt .bar-label {
+  fill: #fff;
+  dominant-baseline: central;
+  text-anchor: middle;
+  font-size: 12px;
+  font-weight: lighter;
+}
+.dark-layout .gantt .bar-label.big {
+  fill: #b4b7bd;
+  text-anchor: start;
+}
+.dark-layout .gantt .handle {
+  fill: #20a14b;
+  cursor: ew-resize;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+.dark-layout .gantt .bar-wrapper {
+  cursor: pointer;
+  outline: none;
+}
+.dark-layout .gantt .bar-wrapper:hover .bar {
+  fill: #a9b5c1;
+}
+.dark-layout .gantt .bar-wrapper:hover .bar-progress {
+  fill: #5e50ee;
+}
+.dark-layout .gantt .bar-wrapper:hover .handle {
+  visibility: visible;
+  opacity: 1;
+}
+.dark-layout .gantt .bar-wrapper.active .bar {
+  fill: #a9b5c1;
+}
+.dark-layout .gantt .bar-wrapper.active .bar-progress {
+  fill: #5e50ee;
+}
+.dark-layout .gantt .lower-text, .dark-layout .gantt .upper-text {
+  font-size: 12px;
+  text-anchor: middle;
+}
+.dark-layout .gantt .upper-text {
+  fill: #b4b7bd;
+}
+.dark-layout .gantt .lower-text {
+  fill: #b4b7bd;
+}
+.dark-layout .gantt .hide {
   display: none;
 }
 

@@ -339,6 +339,7 @@ export default class Gantt {
 
         let row_y = this.options.header_height + this.options.padding / 2;
 
+        let idx = 0
         for (let task of this.tasks) {
             createSVG('rect', {
                 x: 0,
@@ -357,6 +358,19 @@ export default class Gantt {
                 class: 'row-line',
                 append_to: lines_layer
             });
+
+            // 第一行数据顶部
+            if (idx++ === 0) {
+                const topPosY = this.options.header_height > 0 ? this.options.header_height + this.options.padding / 2 : this.options.padding / 2;
+                createSVG('line', {
+                    x1: 0,
+                    y1: topPosY,
+                    x2: row_width,
+                    y2: topPosY,
+                    class: 'row-line',
+                    append_to: lines_layer
+                });
+            }
 
             row_y += this.options.bar_height + this.options.padding;
         }
@@ -455,14 +469,14 @@ export default class Gantt {
                         date_utils.diff(d, this.gantt_start, 'hour') /
                         this.options.step *
                         this.options.column_width;
-                    const y = 0;
+                    const y = this.options.header_height > 0 ? this.options.header_height - this.options.padding : this.options.padding / 2;
     
                     const width = this.options.column_width;
                     const height =
                         (this.options.bar_height + this.options.padding) *
                         this.tasks.length +
                         this.options.header_height +
-                        this.options.padding / 2;
+                        this.options.padding / 2 - y;
     
                     createSVG('rect', {
                         x,

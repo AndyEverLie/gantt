@@ -9,6 +9,11 @@ $bar-progress-light: #7367f0 !default;
 $weekend-highlight-light: #eee !default;
 $handle-color-light: rgb(32, 161, 75) !default;
 
+$text-dark: #b4b7bd !default;
+$dark-bg: #4b4b4b !default;
+$border-color-dark: #3b4253 !default;
+$weekend-highlight-dark: #242b3d !default;
+$arrow-color-dark: #b4b7bd !default;
 .gantt {
 	.grid-background {
 		fill: none;
@@ -43,7 +48,7 @@ $handle-color-light: rgb(32, 161, 75) !default;
 	.arrow {
 		fill: none;
 		stroke: $arrow-color-light;
-		stroke-width: 1.4;
+		stroke-width: 1.1;
 	}
 
 	.bar {
@@ -125,7 +130,131 @@ $handle-color-light: rgb(32, 161, 75) !default;
 		fill: $text-light;
 	}
 	.lower-text {
-		fill: $text-color;
+		fill: $text-light;
+	}
+
+	.hide {
+		display: none;
+	}
+}
+
+.dark-layout .gantt {
+	.grid-background {
+		fill: none;
+	}
+	.grid-header {
+		fill: #283046;
+		stroke: $border-color-dark;
+		stroke-width: 1.4;
+	}
+	.grid-row {
+		fill: #283046;
+	}
+	.row-line {
+		stroke: $border-color-dark;
+	}
+	.tick {
+		stroke: $border-color-dark;
+		stroke-width: 0.5;
+		&.thick {
+			stroke-width: 0.4;
+		}
+	}
+	.today-highlight {
+		fill: $today-highlight-light;
+		opacity: 0.5;
+	}
+	.weekend-highlight {
+		fill: $weekend-highlight-dark;
+		opacity: 0.5;
+	}
+
+	.arrow {
+		fill: none;
+		stroke: $arrow-color-dark;
+		stroke-width: 1.1;
+	}
+
+	.bar {
+		fill: $bar-color;
+		stroke: $bar-stroke;
+		stroke-width: 0;
+		transition: stroke-width .3s ease;
+		user-select: none;
+	}
+	.bar-progress {
+		fill: $bar-progress-light;
+	}
+	.bar-invalid {
+		fill: transparent;
+		stroke: $bar-stroke;
+		stroke-width: 1;
+		stroke-dasharray: 5;
+
+		&~.bar-label {
+			fill: $text-dark;
+		}
+	}
+	.bar-label {
+		fill: #fff;
+		dominant-baseline: central;
+		text-anchor: middle;
+		font-size: 12px;
+		font-weight: lighter;
+
+		&.big {
+			fill: $text-dark;
+			text-anchor: start;
+		}
+	}
+
+	.handle {
+		fill: $handle-color-light;
+		cursor: ew-resize;
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity .3s ease;
+	}
+
+	.bar-wrapper {
+		cursor: pointer;
+		outline: none;
+
+		&:hover {
+			.bar {
+				fill: darken($bar-color, 5);
+			}
+
+			.bar-progress {
+				fill: darken($bar-progress-light, 5);
+			}
+
+			.handle {
+				visibility: visible;
+				opacity: 1;
+			}
+		}
+
+		&.active {
+			.bar {
+				fill: darken($bar-color, 5);
+			}
+
+			.bar-progress {
+				fill: darken($bar-progress-light, 5);
+			}
+		}
+	}
+
+	.lower-text, .upper-text {
+		font-size: 12px;
+		text-anchor: middle;
+	}
+	.upper-text {
+		fill: $text-dark;
+	}
+	.lower-text {
+		fill: $text-dark;
 	}
 
 	.hide {
