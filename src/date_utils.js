@@ -108,6 +108,16 @@ const month_names = {
 };
 
 export default {
+    is_weekend(date) {
+        if (!(date instanceof Date)) {
+            throw new TypeError('Invalid argument type');
+        }
+        if (date.getDay() == 6 || date.getDay() == 0) {
+            return true
+        }
+        return false
+    },
+
     parse(date, date_separator = '-', time_separator = /[.:]/) {
         if (date instanceof Date) {
             return date;

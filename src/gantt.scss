@@ -1,14 +1,13 @@
 $bar-color: #b8c2cc !default;
-$bar-stroke: #8D99A6 !default;
-$border-color: #e0e0e0 !default;
-$light-bg: #f5f5f5 !default;
-$light-border-color: #ebeff2 !default;
-$light-yellow: #fcf8e3 !default;
-$text-muted: #666 !default;
+$bar-stroke: #ebe9f1 !default;
+$border-color-light: #ebe9f1 !default;
+$today-highlight-light: #fcf8e3 !default;
+$arrow-color-light: #ebe9f1 !default;
 $text-light: #555 !default;
 $text-color: #333 !default;
-$blue: #7367f0 !default;
-$handle-color: rgb(32, 161, 75) !default;
+$bar-progress-light: #7367f0 !default;
+$weekend-highlight-light: #eee !default;
+$handle-color-light: rgb(32, 161, 75) !default;
 
 .gantt {
 	.grid-background {
@@ -16,33 +15,34 @@ $handle-color: rgb(32, 161, 75) !default;
 	}
 	.grid-header {
 		fill: #ffffff;
-		stroke: $border-color;
+		stroke: $border-color-light;
 		stroke-width: 1.4;
 	}
 	.grid-row {
 		fill: #ffffff;
 	}
-	.grid-row:nth-child(even) {
-		fill: $light-bg;
-	}
 	.row-line {
-		stroke: $light-border-color;
+		stroke: $border-color-light;
 	}
 	.tick {
-		stroke: $border-color;
-		stroke-width: 0.2;
+		stroke: $border-color-light;
+		stroke-width: 0.5;
 		&.thick {
 			stroke-width: 0.4;
 		}
 	}
 	.today-highlight {
-		fill: $light-yellow;
+		fill: $today-highlight-light;
+		opacity: 0.5;
+	}
+	.weekend-highlight {
+		fill: $weekend-highlight-light;
 		opacity: 0.5;
 	}
 
 	.arrow {
 		fill: none;
-		stroke: $text-muted;
+		stroke: $arrow-color-light;
 		stroke-width: 1.4;
 	}
 
@@ -54,7 +54,7 @@ $handle-color: rgb(32, 161, 75) !default;
 		user-select: none;
 	}
 	.bar-progress {
-		fill: $blue;
+		fill: $bar-progress-light;
 	}
 	.bar-invalid {
 		fill: transparent;
@@ -80,7 +80,7 @@ $handle-color: rgb(32, 161, 75) !default;
 	}
 
 	.handle {
-		fill: $handle-color;
+		fill: $handle-color-light;
 		cursor: ew-resize;
 		opacity: 0;
 		visibility: hidden;
@@ -97,7 +97,7 @@ $handle-color: rgb(32, 161, 75) !default;
 			}
 
 			.bar-progress {
-				fill: darken($blue, 5);
+				fill: darken($bar-progress-light, 5);
 			}
 
 			.handle {
@@ -112,7 +112,7 @@ $handle-color: rgb(32, 161, 75) !default;
 			}
 
 			.bar-progress {
-				fill: darken($blue, 5);
+				fill: darken($bar-progress-light, 5);
 			}
 		}
 	}
@@ -148,7 +148,7 @@ $handle-color: rgb(32, 161, 75) !default;
 		border-radius: 3px;
 
 		.title {
-			border-bottom: 3px solid $blue;
+			border-bottom: 3px solid $bar-progress-light;
 			padding: 10px;
 		}
 

@@ -24,6 +24,8 @@
 	<div class="container">
 		<h2>Interactive Gantt Chart entirely made in SVG!</h2>
 		<div class="gantt-target"></div>
+		<br>
+		<div class="gantt-target1"></div>
 	</div>
 	<div class="mx-auto mt-3 btn-group" role="group">
 		<button type="button" class="btn btn-sm btn-light">Quarter Day</button>
@@ -35,47 +37,47 @@
 	<script>
 		var tasks = [
 			{
-				start: '2020-10-01',
-				end: '2020-10-08',
+				start: '2020-12-01',
+				end: '2020-12-08',
 				name: 'XX功能',
 				id: "Task 0",
 				progress: 20
 			},
 			{
-				start: '2020-10-03',
-				end: '2020-10-06',
+				start: '2020-12-03',
+				end: '2020-12-06',
 				name: '需求、代码',
 				id: "Task 1",
 				progress: 5,
 				dependencies: 'Task 0'
 			},
 			{
-				start: '2020-10-04',
-				end: '2020-10-08',
+				start: '2020-12-04',
+				end: '2020-12-08',
 				name: 'Apply new styles',
 				id: "Task 2",
 				progress: 10,
 				dependencies: 'Task 1'
 			},
 			{
-				start: '2020-10-08',
-				end: '2020-10-09',
+				start: '2020-12-08',
+				end: '2020-12-09',
 				name: '审查',
 				id: "Task 3",
 				progress: 5,
 				dependencies: 'Task 2'
 			},
 			{
-				start: '2020-10-08',
-				end: '2020-10-10',
+				start: '2020-12-08',
+				end: '2020-12-10',
 				name: 'Deploy',
 				id: "Task 4",
 				progress: 0,
 				dependencies: 'Task 2'
 			},
 			{
-				start: '2020-10-11',
-				end: '2020-10-11',
+				start: '2020-12-11',
+				end: '2020-12-11',
 				name: 'Go Live!',
 				id: "Task 5",
 				progress: 0,
@@ -84,13 +86,14 @@
 			},
 			// {
 			// 	start: '2014-01-05',
-			// 	end: '2019-10-12',
+			// 	end: '2019-12-12',
 			// 	name: 'Long term task',
 			// 	id: "Task 6",
 			// 	progress: 0
 			// }
 		]
 		var gantt_chart = new Gantt(".gantt-target", tasks, {
+			header_height: 50,
 			bar_height: 28,
 			bar_corner_radius: 5,
 			arrow_curve: 5,
@@ -98,6 +101,8 @@
 			step: 24,
 			view_mode: 'Day',
 			language: 'zh',
+			start_date: '2020-09-30',
+			end_date: '2021-02-28',
 			on_click: function (task) {
 				console.log(task);
 			},
@@ -111,14 +116,48 @@
 				console.log(mode);
 			},
 		});
-		gantt_chart.change_view_mode('Quarter Day')
+		// gantt_chart.change_view_mode('Quarter Day')
 		console.log(gantt_chart);
+		tasks.push({
+				start: '2021-01-30',
+				end: '2021-02-28',
+				name: 'XX功能',
+				id: "Task 011",
+				progress: 20
+			})
+		var gantt_chart1 = new Gantt(".gantt-target1", tasks, {
+			header_height: 0,
+			bar_height: 28,
+			bar_corner_radius: 5,
+			arrow_curve: 5,
+			padding: 18,
+			step: 24,
+			view_mode: 'Day',
+			language: 'zh',
+			start_date: '2020-09-30',
+			end_date: '2021-02-28',
+			on_click: function (task) {
+				console.log(task);
+			},
+			on_date_change: function (task, start, end) {
+				console.log(task, start, end);
+			},
+			on_progress_change: function (task, progress) {
+				console.log(task, progress);
+			},
+			on_view_change: function (mode) {
+				console.log(mode);
+			},
+		});
+		// gantt_chart1.change_view_mode('Quarter Day')
+		console.log(gantt_chart1);
 
 		$(function () {
 			$(".btn-group").on("click", "button", function () {
 				$btn = $(this);
 				var mode = $btn.text();
 				gantt_chart.change_view_mode(mode);
+				gantt_chart1.change_view_mode(mode);
 				$btn.parent().find('button').removeClass('active');
 				$btn.addClass('active');
 			});

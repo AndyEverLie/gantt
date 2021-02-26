@@ -111,6 +111,16 @@ const month_names = {
 };
 
 var date_utils = {
+    is_weekend(date) {
+        if (!(date instanceof Date)) {
+            throw new TypeError('Invalid argument type');
+        }
+        if (date.getDay() == 6 || date.getDay() == 0) {
+            return true
+        }
+        return false
+    },
+
     parse(date, date_separator = '-', time_separator = /[.:]/) {
         if (date instanceof Date) {
             return date;
@@ -1110,7 +1120,9 @@ class Gantt {
             date_format: 'DD MM',
             popup_trigger: 'click',
             custom_popup_html: null,
-            language: 'zh'
+            language: 'zh',
+            start_date: '2021-02-01',
+            end_date: '2021-02-01',
         };
         this.options = Object.assign({}, default_options, options);
     }
@@ -1233,31 +1245,34 @@ class Gantt {
     }
 
     setup_gantt_dates() {
-        this.gantt_start = this.gantt_end = null;
+        // this.gantt_start = this.gantt_end = null;
 
-        for (let task of this.tasks) {
-            // set global start and end date
-            if (!this.gantt_start || task._start < this.gantt_start) {
-                this.gantt_start = task._start;
-            }
-            if (!this.gantt_end || task._end > this.gantt_end) {
-                this.gantt_end = task._end;
-            }
-        }
+        // for (let task of this.tasks) {
+        //     // set global start and end date
+        //     if (!this.gantt_start || task._start < this.gantt_start) {
+        //         this.gantt_start = task._start;
+        //     }
+        //     if (!this.gantt_end || task._end > this.gantt_end) {
+        //         this.gantt_end = task._end;
+        //     }
+        // }
 
-        this.gantt_start = date_utils.start_of(this.gantt_start, 'day');
-        this.gantt_end = date_utils.start_of(this.gantt_end, 'day');
+        this.gantt_start = date_utils.parse(this.options.start_date);
+        this.gantt_end = date_utils.parse(this.options.end_date);
 
         // add date padding on both sides
         if (this.view_is([VIEW_MODE.QUARTER_DAY, VIEW_MODE.HALF_DAY])) {
             this.gantt_start = date_utils.add(this.gantt_start, -7, 'day');
             this.gantt_end = date_utils.add(this.gantt_end, 7, 'day');
-        } else if (this.view_is(VIEW_MODE.MONTH)) {
+        } else if (this.view_is(VIEW_MODE.DAY)) {
+            this.gantt_start = date_utils.add(this.gantt_start, -15, 'day');
+            this.gantt_end = date_utils.add(this.gantt_end, 15, 'day');
+        } else if (this.view_is([VIEW_MODE.MONTH, VIEW_MODE.YEAR])) {
             this.gantt_start = date_utils.start_of(this.gantt_start, 'year');
             this.gantt_end = date_utils.add(this.gantt_end, 1, 'year');
-        } else if (this.view_is(VIEW_MODE.YEAR)) {
-            this.gantt_start = date_utils.add(this.gantt_start, -2, 'year');
-            this.gantt_end = date_utils.add(this.gantt_end, 2, 'year');
+        // } else if (this.view_is(VIEW_MODE.YEAR)) {
+        //     this.gantt_start = date_utils.add(this.gantt_start, -2, 'year');
+        //     this.gantt_end = date_utils.add(this.gantt_end, 2, 'year');
         } else {
             this.gantt_start = date_utils.add(this.gantt_start, -1, 'month');
             this.gantt_end = date_utils.add(this.gantt_end, 1, 'month');
@@ -1382,8 +1397,8 @@ class Gantt {
     }
 
     make_grid_header() {
-        const header_width = this.dates.length * this.options.column_width;
-        const header_height = this.options.header_height + 10;
+        // const header_width = this.dates.length * this.options.column_width;
+        // const header_height = this.options.header_height + 10;
         // createSVG('rect', {
         //     x: 0,
         //     y: 0,
@@ -1462,11 +1477,45 @@ class Gantt {
                 append_to: this.layers.grid
             });
         }
+
+        // 将周末highlight
+        if (this.view_is([VIEW_MODE.HALF_DAY, VIEW_MODE.DAY])) {
+            const allDates = this.dates.map((d, i) => {
+                return d
+            });
+            allDates.forEach(d => {
+                if (date_utils.is_weekend(d)) {
+                    const x =
+                        date_utils.diff(d, this.gantt_start, 'hour') /
+                        this.options.step *
+                        this.options.column_width;
+                    const y = 0;
+    
+                    const width = this.options.column_width;
+                    const height =
+                        (this.options.bar_height + this.options.padding) *
+                        this.tasks.length +
+                        this.options.header_height +
+                        this.options.padding / 2;
+    
+                    createSVG('rect', {
+                        x,
+                        y,
+                        width,
+                        height,
+                        class: 'weekend-highlight',
+                        append_to: this.layers.grid
+                    });
+                }
+            });
+        }
     }
 
     make_dates() {
+        if (this.options.header_height === 0) {
+            return
+        }
         for (let date of this.get_dates_to_draw()) {
-            console.log('date.lower_text', date.lower_text);
             createSVG('text', {
                 x: date.lower_x,
                 y: date.lower_y,
