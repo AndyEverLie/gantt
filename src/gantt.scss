@@ -13,6 +13,7 @@ $text-dark: #b4b7bd !default;
 $dark-bg: #4b4b4b !default;
 $border-color-dark: #3b4253 !default;
 $weekend-highlight-dark: #242b3d !default;
+$today-highlight-dark: #7367f0 !default;
 $arrow-color-dark: #b4b7bd !default;
 .gantt {
 	.grid-background {
@@ -161,7 +162,7 @@ $arrow-color-dark: #b4b7bd !default;
 		}
 	}
 	.today-highlight {
-		fill: $today-highlight-light;
+		fill: $today-highlight-dark;
 		opacity: 0.5;
 	}
 	.weekend-highlight {

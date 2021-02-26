@@ -29,6 +29,8 @@
 		<div class="gantt-target"></div>
 		<br>
 		<div class="gantt-target1"></div>
+		<br>
+		<div class="gantt-target2"></div>
 	</div>
 	<div class="mx-auto mt-3 btn-group" role="group">
 		<button type="button" class="btn btn-sm btn-light">Quarter Day</button>
@@ -96,6 +98,7 @@
 			// }
 		]
 		var gantt_chart = new Gantt(".gantt-target", tasks, {
+			only_header: true,
 			header_height: 50,
 			bar_height: 28,
 			bar_corner_radius: 5,
@@ -119,16 +122,41 @@
 				console.log(mode);
 			},
 		});
-		// gantt_chart.change_view_mode('Quarter Day')
-		console.log(gantt_chart);
+
 		tasks.push({
-				start: '2021-01-30',
-				end: '2021-02-28',
-				name: 'XX功能',
-				id: "Task 011",
-				progress: 20
-			})
+			start: '2021-01-30',
+			end: '2021-02-28',
+			name: 'XX功能',
+			id: "Task 011",
+			progress: 20
+		})
 		var gantt_chart1 = new Gantt(".gantt-target1", tasks, {
+			header_height: 50,
+			bar_height: 28,
+			bar_corner_radius: 5,
+			arrow_curve: 5,
+			padding: 18,
+			step: 24,
+			view_mode: 'Day',
+			language: 'zh',
+			start_date: '2020-09-30',
+			end_date: '2021-02-28',
+			on_click: function (task) {
+				console.log(task);
+			},
+			on_date_change: function (task, start, end) {
+				console.log(task, start, end);
+			},
+			on_progress_change: function (task, progress) {
+				console.log(task, progress);
+			},
+			on_view_change: function (mode) {
+				console.log(mode);
+			},
+		});
+
+		
+		var gantt_chart2 = new Gantt(".gantt-target2", tasks, {
 			header_height: 0,
 			bar_height: 28,
 			bar_corner_radius: 5,
@@ -152,8 +180,8 @@
 				console.log(mode);
 			},
 		});
-		// gantt_chart1.change_view_mode('Quarter Day')
-		console.log(gantt_chart1);
+		// gantt_chart2.change_view_mode('Quarter Day')
+		console.log(gantt_chart2);
 
 		$(function () {
 			$(".btn-group").on("click", "button", function () {
