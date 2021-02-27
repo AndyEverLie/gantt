@@ -326,12 +326,11 @@ export default class Gantt {
         if (this.options.only_header) {
             grid_height = this.options.header_height + this.options.padding / 2;
         } else {
-            grid_height = this.options.header_height + this.options.padding / 2 + (this.options.bar_height + this.options.padding) * this.tasks.length;
-            // if (this.options.header_height > 0) {
-            //     grid_height = this.options.header_height + this.options.padding / 2 + (this.options.bar_height + this.options.padding) * this.tasks.length;
-            // } else {
-            //     grid_height = this.options.padding / 2 + (this.options.bar_height + this.options.padding) * this.tasks.length;
-            // }
+            if (this.options.header_height > 0) {
+                grid_height = this.options.header_height + this.options.padding / 2 + (this.options.bar_height + this.options.padding) * this.tasks.length;
+            } else {
+                grid_height = (this.options.bar_height + this.options.padding) * this.tasks.length;
+            }
         }
 
         createSVG('rect', {
