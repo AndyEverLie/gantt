@@ -326,11 +326,12 @@ export default class Gantt {
         if (this.options.only_header) {
             grid_height = this.options.header_height + this.options.padding / 2;
         } else {
-            if (this.options.header_height > 0) {
-                grid_height = this.options.header_height + this.options.padding / 2 + (this.options.bar_height + this.options.padding) * this.tasks.length;
-            } else {
-                grid_height = (this.options.bar_height + this.options.padding) * this.tasks.length;
-            }
+            grid_height = this.options.header_height + this.options.padding / 2 + (this.options.bar_height + this.options.padding) * this.tasks.length;
+            // if (this.options.header_height > 0) {
+            //     grid_height = this.options.header_height + this.options.padding / 2 + (this.options.bar_height + this.options.padding) * this.tasks.length;
+            // } else {
+            //     grid_height = this.options.padding / 2 + (this.options.bar_height + this.options.padding) * this.tasks.length;
+            // }
         }
 
         createSVG('rect', {
@@ -359,8 +360,7 @@ export default class Gantt {
         let row_y = this.options.header_height > 0 ? this.options.header_height + this.options.padding / 2 : 0;
 
         let idx = 0
-        // for (let task of this.tasks) {
-        for (let i = 0; i <= this.tasks.length; i++) {
+        for (let task of this.tasks) {
             if (!this.options.only_header) {
                 createSVG('rect', {
                     x: 0,
@@ -654,6 +654,7 @@ export default class Gantt {
             return;
         }
         this.bars = this.tasks.map(task => {
+            console.log('make_bars', task)
             const bar = new Bar(this, task);
             this.layers.bar.appendChild(bar.group);
             return bar;

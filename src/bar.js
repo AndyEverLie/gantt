@@ -315,9 +315,16 @@ export default class Bar {
     }
 
     compute_y() {
+        if (this.gantt.options.header_height > 0) {
+            return (
+                this.gantt.options.header_height +
+                this.gantt.options.padding +
+                this.task._index * (this.height + this.gantt.options.padding)
+            );
+        }
         return (
             this.gantt.options.header_height +
-            this.gantt.options.padding +
+            this.gantt.options.padding / 2 +
             this.task._index * (this.height + this.gantt.options.padding)
         );
     }
