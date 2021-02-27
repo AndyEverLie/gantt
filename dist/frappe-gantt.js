@@ -1393,7 +1393,8 @@ class Gantt {
         let row_y = this.options.header_height > 0 ? this.options.header_height + this.options.padding / 2 : 0;
 
         let idx = 0;
-        for (let task of this.tasks) {
+        // for (let task of this.tasks) {
+        for (let i = 0; i <= this.tasks.length; i++) {
             if (!this.options.only_header) {
                 createSVG('rect', {
                     x: 0,
@@ -1413,7 +1414,6 @@ class Gantt {
                     append_to: lines_layer
                 });
             }
-
 
             // 第一行数据顶部
             if (idx++ === 0) {
