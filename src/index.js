@@ -236,10 +236,10 @@ export default class Gantt {
         // add date padding on both sides
         if (this.view_is([VIEW_MODE.QUARTER_DAY, VIEW_MODE.HALF_DAY])) {
             this.gantt_start = date_utils.add(this.gantt_start, -7, 'day');
-            this.gantt_end = date_utils.add(this.gantt_end, 7, 'day');
+            this.gantt_end = date_utils.add(this.gantt_end, 1, 'month');
         } else if (this.view_is(VIEW_MODE.DAY)) {
             this.gantt_start = date_utils.add(this.gantt_start, -15, 'day');
-            this.gantt_end = date_utils.add(this.gantt_end, 15, 'day');
+            this.gantt_end = date_utils.add(this.gantt_end, 1, 'month');
         } else if (this.view_is([VIEW_MODE.MONTH, VIEW_MODE.YEAR])) {
             this.gantt_start = date_utils.start_of(this.gantt_start, 'year');
             this.gantt_end = date_utils.add(this.gantt_end, 1, 'year');
