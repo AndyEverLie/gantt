@@ -193,13 +193,13 @@ export default class Gantt {
 
         if (view_mode === VIEW_MODE.DAY) {
             this.options.step = 24;
-            this.options.column_width = 38;
+            this.options.column_width = this.options.step * 2;
         } else if (view_mode === VIEW_MODE.HALF_DAY) {
             this.options.step = 24 / 2;
-            this.options.column_width = 38;
+            this.options.column_width = this.options.step * 2;
         } else if (view_mode === VIEW_MODE.QUARTER_DAY) {
             this.options.step = 24 / 4;
-            this.options.column_width = 38;
+            this.options.column_width = this.options.step * 2;
         } else if (view_mode === VIEW_MODE.WEEK) {
             this.options.step = 24 * 7;
             this.options.column_width = 140;
@@ -546,9 +546,8 @@ export default class Gantt {
                 });
 
                 // remove out-of-bound dates
-                if (
-                    $upper_text.getBBox().x2 > this.layers.grid.getBBox().width
-                ) {
+                if ($upper_text.getBBox().x2 > this.layers.grid.getBBox().width) {
+                    console.log('$upper_text.getBBox()', $upper_text.getBBox())
                     $upper_text.remove();
                 }
             }
@@ -581,9 +580,10 @@ export default class Gantt {
                 this.options.language
             ),
             Day_lower:
-                date.getDate() !== last_date.getDate()
-                    ? date_utils.format(date, 'D', this.options.language)
-                    : '',
+                date_utils.format(date, 'D', this.options.language),
+                // date.getDate() !== last_date.getDate()
+                //     ? date_utils.format(date, 'D', this.options.language)
+                //     : '',
             Week_lower:
                 date.getMonth() !== last_date.getMonth()
                     ? date_utils.format(date, 'D MMM', this.options.language)

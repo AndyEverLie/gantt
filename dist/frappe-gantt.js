@@ -1215,18 +1215,25 @@ class Gantt {
         this.trigger_event('view_change', [mode]);
     }
 
+    get_actual_width() {
+        const actual_width = this.$svg
+            .querySelector('.grid .grid-background')
+            .getAttribute('width');
+        return actual_width;
+    }
+
     update_view_scale(view_mode) {
         this.options.view_mode = view_mode;
 
         if (view_mode === VIEW_MODE.DAY) {
             this.options.step = 24;
-            this.options.column_width = 38;
+            this.options.column_width = this.options.step * 2;
         } else if (view_mode === VIEW_MODE.HALF_DAY) {
             this.options.step = 24 / 2;
-            this.options.column_width = 38;
+            this.options.column_width = this.options.step * 2;
         } else if (view_mode === VIEW_MODE.QUARTER_DAY) {
             this.options.step = 24 / 4;
-            this.options.column_width = 38;
+            this.options.column_width = this.options.step * 2;
         } else if (view_mode === VIEW_MODE.WEEK) {
             this.options.step = 24 * 7;
             this.options.column_width = 140;
@@ -1263,16 +1270,16 @@ class Gantt {
         // add date padding on both sides
         if (this.view_is([VIEW_MODE.QUARTER_DAY, VIEW_MODE.HALF_DAY])) {
             this.gantt_start = date_utils.add(this.gantt_start, -7, 'day');
-            this.gantt_end = date_utils.add(this.gantt_end, 7, 'day');
+            this.gantt_end = date_utils.add(this.gantt_end, 1, 'month');
         } else if (this.view_is(VIEW_MODE.DAY)) {
             this.gantt_start = date_utils.add(this.gantt_start, -15, 'day');
-            this.gantt_end = date_utils.add(this.gantt_end, 15, 'day');
+            this.gantt_end = date_utils.add(this.gantt_end, 1, 'month');
         } else if (this.view_is([VIEW_MODE.MONTH, VIEW_MODE.YEAR])) {
             this.gantt_start = date_utils.start_of(this.gantt_start, 'year');
             this.gantt_end = date_utils.add(this.gantt_end, 1, 'year');
-        // } else if (this.view_is(VIEW_MODE.YEAR)) {
-        //     this.gantt_start = date_utils.add(this.gantt_start, -2, 'year');
-        //     this.gantt_end = date_utils.add(this.gantt_end, 2, 'year');
+            // } else if (this.view_is(VIEW_MODE.YEAR)) {
+            //     this.gantt_start = date_utils.add(this.gantt_start, -2, 'year');
+            //     this.gantt_end = date_utils.add(this.gantt_end, 2, 'year');
         } else {
             this.gantt_start = date_utils.add(this.gantt_start, -1, 'month');
             this.gantt_end = date_utils.add(this.gantt_end, 1, 'month');
@@ -1529,14 +1536,14 @@ class Gantt {
                         this.options.step *
                         this.options.column_width;
                     const y = this.options.header_height > 0 ? this.options.header_height / 2 + 5 : 0;
-    
+
                     const width = this.options.column_width;
                     // const height = this.options.only_header ? this.options.header_height / 2 + 5 :
                     //     this.options.padding / 2 +
                     //     (this.options.bar_height + this.options.padding) *
                     //     this.tasks.length +
                     //     this.options.header_height / 2 - 10;
-    
+
                     createSVG('rect', {
                         x,
                         y,
@@ -1573,9 +1580,8 @@ class Gantt {
                 });
 
                 // remove out-of-bound dates
-                if (
-                    $upper_text.getBBox().x2 > this.layers.grid.getBBox().width
-                ) {
+                if ($upper_text.getBBox().x2 > this.layers.grid.getBBox().width) {
+                    console.log('$upper_text.getBBox()', $upper_text.getBBox());
                     $upper_text.remove();
                 }
             }
@@ -1608,9 +1614,10 @@ class Gantt {
                 this.options.language
             ),
             Day_lower:
-                date.getDate() !== last_date.getDate()
-                    ? date_utils.format(date, 'D', this.options.language)
-                    : '',
+                date_utils.format(date, 'D', this.options.language),
+                // date.getDate() !== last_date.getDate()
+                //     ? date_utils.format(date, 'D', this.options.language)
+                //     : '',
             Week_lower:
                 date.getMonth() !== last_date.getMonth()
                     ? date_utils.format(date, 'D MMM', this.options.language)
